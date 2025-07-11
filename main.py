@@ -140,7 +140,7 @@ async def on_voice_state_update(member, before, after):
             # --- Notification Message for Public Channel ---
             public_message = (
                 f"{member.mention} คุณถูกแบนไม่ให้เข้า Voice Channel และห้องข้อความบางส่วนเป็นเวลา {punish_duration} วินาที "
-                f"เนื่องจาก**เข้าออกห้องเสียงบ่อยเกินไป** (ครั้งที่ {user_data['disconnect_count']})"
+                f"เนื่องจาก**เข้าออกห้องเสียงบ่อยเกินไป** (ครั้งที่ {user_data['disconnect_count']}) **ด้วยรักจากโชคจุ๊บๆ**"
             )
 
             if before.channel:
@@ -157,7 +157,7 @@ async def on_voice_state_update(member, before, after):
                 f"คุณถูกแบนไม่ให้เข้า Voice Channel และห้องข้อความบางส่วนในเซิร์ฟเวอร์ {member.guild.name} "
                 f"เป็นเวลา {punish_duration} วินาที เนื่องจากคุณ**เข้าออกห้องเสียงบ่อยเกินไป** "
                 f"(นี่คือครั้งที่ {user_data['disconnect_count']} ในวันนี้)\n\n"
-                f"โปรดทราบว่าการกระทำนี้เป็นไปตามกฎของเซิร์ฟเวอร์ เพื่อรักษาความสงบเรียบร้อยในห้องเสียงครับ"
+                f"โปรดทราบว่าการกระทำนี้เป็นไปตามกฎของเซิร์ฟเวอร์ เพื่อรักษาความสงบเรียบร้อยในห้องเสียงครับ **ด้วยรักจากโชคจุ๊บๆ**"
             )
             try:
                 await member.send(dm_message)
