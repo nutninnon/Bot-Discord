@@ -113,13 +113,10 @@ async def on_voice_state_update(member, before, after):
         user_data['disconnect_count'] += 1
         user_data['last_disconnect_date'] = today
 
-        # Punishment Logic: Base 5 minutes, then multiply by 2 for subsequent disconnects
-        # Example:
-        #   1st disconnect: 300 seconds (5 minutes)
-        #   2nd disconnect: 300 * 2 = 600 seconds (10 minutes)
-        #   3rd disconnect: 600 * 4 = 1200 seconds (20 minutes)
+        # --- NEW PUNISHMENT LOGIC: Fixed 5 minutes every time ---
+        # Every disconnect (including the first one) will result in a 5-minute (300 seconds) timeout.
         base_punish_seconds = 300 # 5 minutes
-        punish_duration = base_punish_seconds * (2 ** (user_data['disconnect_count'] - 1))
+        punish_duration = base_punish_seconds # Punishment is always 300 seconds
         user_data['punish_time'] = punish_duration
 
         print(
@@ -141,7 +138,7 @@ async def on_voice_state_update(member, before, after):
             public_message = (
                 f"{member.mention} คุณถูกแบนไม่ให้เข้า Voice Channel และห้องข้อความบางส่วนเป็นเวลา {punish_duration} วินาที "
                 f"เนื่องจาก**เข้าออกห้องเสียงบ่อยเกินไป** (ครั้งที่ {user_data['disconnect_count']})\n\n"
-                f"เอ็งก็รู้ว่าข้ารักเอ็งที่สุดด" # <-- เพิ่มข้อความนี้
+                f"เอ็งก็รู้ว่าข้ารักเอ็งที่สุดด"
             )
 
             if before.channel:
@@ -159,7 +156,7 @@ async def on_voice_state_update(member, before, after):
                 f"เป็นเวลา {punish_duration} วินาที เนื่องจากคุณ**เข้าออกห้องเสียงบ่อยเกินไป** "
                 f"(นี่คือครั้งที่ {user_data['disconnect_count']} ในวันนี้)\n\n"
                 f"โปรดทราบว่าการกระทำนี้เป็นไปตามกฎของเซิร์ฟเวอร์ เพื่อรักษาความสงบเรียบร้อยในห้องเสียงครับ\n\n"
-                f"เอ็งก็รู้ว่าข้ารักเอ็งที่สุดด" # <-- เพิ่มข้อความนี้
+                f"เอ็งก็รู้ว่าข้ารักเอ็งที่สุดด"
             )
             try:
                 await member.send(dm_message)
@@ -195,7 +192,7 @@ async def on_voice_state_update(member, before, after):
                 f"ผู้ใช้ {member.display_name} พยายามเข้าช่องเสียง: {after.channel.name} ขณะที่มีบทลงโทษ"
             )
 
-# Call the keep_alive function to start the Flask web server thread
+# Call the Flask web server function in a separate thread to keep the service alive
 start_keep_alive_server()
 
 # Run the Discord bot using the token retrieved from environment variables
